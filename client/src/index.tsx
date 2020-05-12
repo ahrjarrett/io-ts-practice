@@ -1,12 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ApolloProvider } from '@apollo/react-hooks'
+
+import { App } from './App';
+import { Loading } from './Loading'
+import { useClient } from 'src/hooks/useClient'
+
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+const Root: React.FC<{}> = () => {
+  const client = useClient()
+  return client === null ? (
+    <Loading />
+  ) : (
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    )
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Root />
   </React.StrictMode>,
   document.getElementById('root')
 );
